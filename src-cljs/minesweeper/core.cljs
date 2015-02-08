@@ -15,6 +15,10 @@
 ;; current time
 (def time-tick (r/atom 0))
 
+
+(defn set-tick[]
+  (reset! time-tick (.getTime (js/Date.))))
+
 ;; game status
 (def game-state 
   (r/atom
@@ -31,18 +35,18 @@
 (defn play-sound [result]
   (when (.-HTMLAudioElement js/window)
     (let [sounds {:failed "sad" :completed "success"}] 
-    (println "playing " (sounds result))
+;;    (println "playing " (sounds result))
     (let [audio-obj (js/Audio. (str "sounds/" (sounds result) ".mp3"))]
     (reset! playing audio-obj) 
     (.play audio-obj )))))
 
 
-(defn update-timer [state timer]
-  (let [game @state]
-    (println "timer triggered")
+(defn update-timer []
+  (let [game @game-state]
+;;    (println "timer triggered")
     (when-not (or (game :first) (game :end))
-      (println "Changed seconds")
-      (reset! timer (quot (.getTime (js/Date.)) 1000)))))
+;;      (println "Changed seconds")
+      (set-tick))))
 
 
 (defn stop-sound [] (when-let [ audio-obj @playing] (.pause audio-obj)))
@@ -88,6 +92,7 @@
    :mines mines
    :end false
    :first true
+   :start 0 ;;timestamp
    }))
 
 (defn all-open? [game]
@@ -155,7 +160,7 @@
 
 
 (defn first-click [game x y]
-  (reset! time-tick (quot (.getTime (js/Date.)) 1000))
+  (set-tick)
   (if (= 1 (get-in game [:board x y]) )
     (swap-cell game [x y] (find-space game))
     game))
@@ -165,7 +170,7 @@
   (let [game (if (game :first) 
                (-> game
                 (first-click x y)
-                (assoc :start (quot (.getTime (js/Date.)) 1000))
+                (assoc :start (.getTime (js/Date.)) )
                 (assoc :first false))
                game) ]
     (condp = (get-in game [:state x y])
@@ -212,6 +217,7 @@
 
 (defn new-game! [difficulty]
   (stop-sound)
+  (reset! time-tick 0)
   (reset! game-state (apply init-game (difficulties difficulty))))
 
 (defn print-game [game]
@@ -271,12 +277,12 @@
 (defn format [n]
   (let [s (str n)]
     (str (apply str (repeat (- 3 (count s)) 0)) s)))
-(defn timer-component[app-state timer]
-  (println "trigger timer and rendering timer component ")
-  (js/setTimeout update-timer 200 app-state timer)
+(defn timer-component[]
+;;  (println "trigger timer and rendering timer component ")
+  (js/setTimeout update-timer 200)
   [:input#display {:type      "text" 
                    :read-only true
-                   :value     (format (min 999 (- @timer (@app-state :start))))} ])
+                   :value     (format (min 999 (quot (- @time-tick (@game-state :start)) 1000)))} ])
 
 
 ;; UI components
@@ -288,7 +294,7 @@
                              :read-only true
                              :value (format (game :mines))} ]
             [:button#control {:on-click #(new-game! :beginner)} "\u263A" ] 
-            (timer-component game-state time-tick)
+            (timer-component)
             ]]
 
         (for [y (range (game :y))]
