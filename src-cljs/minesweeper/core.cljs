@@ -6,7 +6,7 @@
 (enable-console-print!)
 
 (def difficulties 
-  {:beginner      [4 4 3]
+  {:beginner      [8 8 10]
    :intermediate  [16 16 40]
    :expert        [30 16 99]})
 
@@ -277,6 +277,7 @@
     (and end? (= 1 mine) (= state :open) )  "open burst" 
     (and end? (= state :flag) (zero? mine)) "wrong_flag"
     (= state :open)                         (str "open_" surround " open")
+    (= state :flag)                         "cell_flag"
     :else                                   (str "cell_action cell_" (name state)) ))
 (defn text-of [end? mine state surround]
   (cond 
@@ -328,7 +329,9 @@
             [:input.display {:type "text" 
                              :read-only true
                              :value (format (game :remains))} ]
-            [:button#control {:on-click #(new-game! :beginner)} "\u263A" ] 
+            [:button#control 
+             {:on-click #(new-game! :beginner)} 
+             (or ({:failed \u2639} end?) \u263A) ] 
             (timer-component) ]
            
            ] 

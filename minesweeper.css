@@ -21,7 +21,7 @@ input.display {
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
-  background: rgba(140,140,90,1);
+  background: #CCC;
   text-align: center;
 }
 
@@ -30,7 +30,7 @@ input.display {
 }
 
 .control-row {
-  background: rgba(140,90,220,1);
+  background: #CCC;
   height: 32px;
   padding: 10px;
   margin-left: auto;
@@ -44,34 +44,34 @@ input.display {
   height: 100%;
   font-size:  24px;
   width: 80px;
-  color: #ff6;
+  background: #ffc;
+  color: #337
 }
 
 .container {
-    background-color: #b0e0e6;
+  /*  background-color: #b0e0e6; */
 }
 
 
 span.cell_hide {
-  color: rgba(140,140,140,1);
+  color: #CCC;
 }
 
 span.cell_question {
-
+   color: #690;
 }
 span.cell_marked {
-
+   color: #663;
 }
 span.open {
   width:39px;
   height: 39px;
-
   line-height: 39px;
   border: 1px dotted green;
   border-style: dotted !important;
 }
 span.open_0 {
-  color: rgba(140,140,140,1);
+  color: #CCC;
 }
 
 span.open_1 {
@@ -87,23 +87,23 @@ span.open_3 {
 }
 
 span.open_4 {
-
+    color: #309;
 }
 
 span.open_5 {
-
+    color: #f6c;
 }
 
 span.open_6 {
-
+    color: #060;
 }
 
 span.open_7 {
-
+    color: #f96;
 }
 
 span.open_8 {
-
+    color: #660000;
 }
 
 span.burst {
@@ -128,7 +128,7 @@ span.burst {
   text-height: 35px;
   text-align:center;
   text-overflow: ellipsis;
-  background: rgba(140,140,140,1);
+  background: #CCC;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
