@@ -1,7 +1,7 @@
 
 @font-face{
     font-family: "LCD";
-    src: url('fonts/digital-7.ttf'); 
+    src: url('fonts/digit-7-mono.ttf'); 
 }
 input.display {
   width: 45px;
@@ -51,8 +51,9 @@ input.display {
     background-color: #b0e0e6;
 }
 
-span.cell_hide {
 
+span.cell_hide {
+  color: rgba(140,140,140,1);
 }
 
 span.cell_question {
@@ -61,15 +62,20 @@ span.cell_question {
 span.cell_marked {
 
 }
+span.open {
+  width:39px;
+  height: 39px;
 
+  line-height: 39px;
+  border: 1px dotted green;
+  border-style: dotted !important;
+}
 span.open_0 {
-
+  color: rgba(140,140,140,1);
 }
 
 span.open_1 {
     color: blue;
-
-
 }
 
 span.open_2 {
@@ -100,19 +106,21 @@ span.open_8 {
 
 }
 
-span.open_X {
+span.burst {
     background-color: red;
 }
 
-span.cell:active {
+
+
+.cell_action:active {
   border-style:ridge;
 }
-span.cell {
+.cell {
 
   display: inline-block;
   width: 35px;
   height: 35px;
-  margin-left: 1px; 
+/*  margin-left: 1px; */
   border: 3px outset #d2e3ed;
   -webkit-border-radius: 1px;
 /*  border-radius: 2px; */
@@ -128,11 +136,14 @@ span.cell {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  line-height:35px;
 }
 
 div.game-row {
   height: 35px;
-
   margin: 2px; 
 }
 
+i.burst:before, i.burst:after { content: ""; position: absolute; top: 0; left: 0; height: 25px; width: 25px; background: red; z-index: 0}
+i.burst:before { -webkit-transform: rotate(30deg); -moz-transform: rotate(30deg); -ms-transform: rotate(30deg); -o-transform: rotate(30deg); } 
+i.burst:after { -webkit-transform: rotate(60deg); -moz-transform: rotate(60deg); -ms-transform: rotate(60deg); -o-transform: rotate(60deg); } 

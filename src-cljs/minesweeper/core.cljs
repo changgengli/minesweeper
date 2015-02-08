@@ -6,7 +6,7 @@
 (enable-console-print!)
 
 (def difficulties 
-  {:beginner      [6 6 14]
+  {:beginner      [4 4 3]
    :intermediate  [16 16 40]
    :expert        [30 16 99]})
 
@@ -259,25 +259,43 @@
 ;; :flag -> rightclick
 ;; :question -> click, rightclick
 ;; :hide -> click, rightclick
+(def mine-str "\uD83D\uDCA3")
+(def flag-str \u2691)
+(def cross-mark \u274c)
+
+
+;;output
+;; burst open_X: open a bomb
+;; wrong_flag  : flag a non-bomb cell
+;; open_[0-8]  : open a cell 
+;; cell_hide
+;; cell_question
+;; cell_flag
+;;
+(defn class-of [end? mine state surround]
+  (cond
+    (and end? (= 1 mine) (= state :open) )  "open burst" 
+    (and end? (= state :flag) (zero? mine)) "wrong_flag"
+    (= state :open)                         (str "open_" surround " open")
+    :else                                   (str "cell_action cell_" (name state)) ))
+(defn text-of [end? mine state surround]
+  (cond 
+    (and (= state :open) (= 1 mine)) mine-str
+    (and end? (= 1 mine)) mine-str
+    (and end? (= state :flag) (zero? mine)) cross-mark
+    (= state :open) surround
+    (= state :flag) flag-str
+    (= state :question) \?
+    (= state :hide) "@"))
+
 (defn cell [end? x y mine state surround]
 ;;  (print end? x y)
-       [:span.cell
-          {
-          :on-click #(click! x y)
-          :on-context-menu  #(do (mark! x y ) false)
-          :on-double-click #(explore! x y)
-          :class (cond 
-                   (= state :open) (str "open_" surround)
-                   :else (str "cell_" (name state)))}
-
-         (cond (= state :open) (cond (= 1 mine) "\uD83D\uDCA3"
-                                     (> surround 0) (str  surround)
-                                     :else "0")
-               (= state :flag) \u2691
-               (= state :question) \?
-               (= state :hide) \@
-
-               :else           (first (name state))) ])
+  [:span.cell
+   { :on-click #(click! x y)
+     :on-context-menu  #(do (mark! x y ) false)
+     :on-double-click #(explore! x y)
+     :class (class-of end? mine state surround)
+      } (text-of end? mine state surround)])
 
 
 ;; each row
@@ -301,7 +319,7 @@
 
 ;; The board
 (defn game-table []
-  (println "rendering " @game-state)
+;;  (println "rendering " @game-state)
   (let [game @game-state
         end? (game :end) ] 
     (into 
@@ -311,7 +329,9 @@
                              :read-only true
                              :value (format (game :remains))} ]
             [:button#control {:on-click #(new-game! :beginner)} "\u263A" ] 
-            (timer-component) ]] 
+            (timer-component) ]
+           
+           ] 
       (map game-row (repeat end? ) (range) (game :board) (game :states) (game :counts)))))
 
 ;; Render the root component
