@@ -34,9 +34,9 @@
 
 (defn play-sound [result]
   (when (.-HTMLAudioElement js/window)
-    (let [sounds {:failed "sad" :completed "success"}] 
+    (let [sounds {:failed ["sad", "bomb"] :completed ["success", "victory"]}] 
 ;;    (println "playing " (sounds result))
-    (let [audio-obj (js/Audio. (str "sounds/" (sounds result) ".mp3"))]
+    (let [audio-obj (js/Audio. (str "sounds/" (rand-nth (sounds result)) ".mp3"))]
     (reset! playing audio-obj) 
     (.play audio-obj )))))
 
