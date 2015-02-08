@@ -1,0 +1,134 @@
+
+@font-face{
+    font-family: "LCD";
+    src: url('fonts/digital-7.ttf'); 
+}
+input.display {
+  width: 45px;
+  text-align: center;
+  letter-spacing: 3px;
+  font: normal 24px "LCD", Monaco, monospace;
+  background: black;
+  color: yellow;
+  height: 100%;
+  display: inline-block;
+  margin-left: 25px;
+  margin-right: 25px;
+
+}
+.row  {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  background: rgba(140,140,90,1);
+  text-align: center;
+}
+
+.bottom-row {
+    text-align: center;
+}
+
+.control-row {
+  background: rgba(140,90,220,1);
+  height: 32px;
+  padding: 10px;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+
+#control {
+  display: inline-block;
+  height: 100%;
+  font-size:  24px;
+  width: 80px;
+  color: #ff6;
+}
+
+.container {
+    background-color: #b0e0e6;
+}
+span.cell_hide {
+
+}
+
+span.cell_question {
+
+}
+span.cell_marked {
+
+}
+
+span.cell_0 {
+
+}
+
+span.cell_1 {
+
+}
+
+span.cell_2 {
+
+}
+
+span.cell_3 {
+
+}
+
+span.cell_4 {
+
+}
+
+span.cell_5 {
+
+}
+
+span.cell_6 {
+
+}
+
+span.cell_7 {
+
+}
+
+span.cell_8 {
+
+}
+
+span.cell_mine {
+
+}
+span.cell:active {
+  border-style:ridge;
+}
+span.cell {
+
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+/*  margin: 1px; */
+  border: 4px outset #d2e3ed;
+  -webkit-border-radius: 1px;
+/*  border-radius: 2px; */
+  font: normal 16px/-2 "Lucida Console", Monaco, monospace;
+  color: black;
+  text-height: 35px;
+  text-align:center;
+  text-overflow: ellipsis;
+  background: rgba(140,140,140,1);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+div.game-row {
+    height: 35px;
+}
+
