@@ -6,7 +6,7 @@
 (enable-console-print!)
 
 (def difficulties 
-  {:beginner      [5 4 6]
+  {:beginner      [6 6 14]
    :intermediate  [16 16 40]
    :expert        [30 16 99]})
 
@@ -259,36 +259,38 @@
 ;; :flag -> rightclick
 ;; :question -> click, rightclick
 ;; :hide -> click, rightclick
-(defn cell [x y mine state surround]
+(defn cell [end? x y mine state surround]
+;;  (print end? x y)
        [:span.cell
           {
           :on-click #(click! x y)
           :on-context-menu  #(do (mark! x y ) false)
           :on-double-click #(explore! x y)
           :class (cond 
-                   (= state :open) (if (zero? mine)
-                                     (str "open_" surround)
-                                     "cell_mine")
+                   (= state :open) (str "open_" surround)
                    :else (str "cell_" (name state)))}
-         (cond 
-                   (= state :open) (cond
-                                     (= 1 mine) "X"
+
+         (cond (= state :open) (cond (= 1 mine) "\uD83D\uDCA3"
                                      (> surround 0) (str  surround)
                                      :else "0")
-                   :else (first (name state)))
-          ])
+               (= state :flag) \u2691
+               (= state :question) \?
+               (= state :hide) \@
 
-(defn game-row [x mines states surrounds]
-;;  (println "rending " x mines states surrounds)
+               :else           (first (name state))) ])
+
+
+;; each row
+(defn game-row [end? x mines states surrounds]
+  ;;(println "rending " x mines states surrounds)
   (into [:div.game-row ] 
-        (map cell (repeat x) (range) mines states surrounds)));
-
-;        (for [y (range (game :y))] (cell x y ))))
+        (map cell (repeat end?) (repeat x) (range) mines states surrounds)));
 
 (defn format [n]
-  (let [s (str n)]
+  (let [s (str (max 0 n))]
     (str (apply str (repeat (- 3 (count s)) 0)) s)))
 
+;; the timer
 (defn timer-component[]
 ;;  (println "trigger timer and rendering timer component ")
   (js/setTimeout update-timer 200)
@@ -297,21 +299,20 @@
                    :value     (format (min 999 (quot (- @time-tick (@game-state :start)) 1000)))} ])
 
 
-;; UI components
+;; The board
 (defn game-table []
   (println "rendering " @game-state)
-  (let [game @game-state] 
-    (into [:div.board-panel 
+  (let [game @game-state
+        end? (game :end) ] 
+    (into 
+      [:div.board-panel 
            [:div.control-row.row  
             [:input.display {:type "text" 
                              :read-only true
                              :value (format (game :remains))} ]
             [:button#control {:on-click #(new-game! :beginner)} "\u263A" ] 
-            (timer-component)
-            ]]
-        (map game-row (range) (game :board) (game :states) (game :counts)))))
- ;       (for [x (range (game :x))]
- ;         (game-row game x)))))
+            (timer-component) ]] 
+      (map game-row (repeat end? ) (range) (game :board) (game :states) (game :counts)))))
 
 ;; Render the root component
 (defn start []

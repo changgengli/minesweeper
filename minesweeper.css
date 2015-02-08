@@ -33,7 +33,6 @@ input.display {
   background: rgba(140,90,220,1);
   height: 32px;
   padding: 10px;
-
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
@@ -51,6 +50,7 @@ input.display {
 .container {
     background-color: #b0e0e6;
 }
+
 span.cell_hide {
 
 }
@@ -62,45 +62,48 @@ span.cell_marked {
 
 }
 
-span.cell_0 {
+span.open_0 {
 
 }
 
-span.cell_1 {
+span.open_1 {
+    color: blue;
+
 
 }
 
-span.cell_2 {
+span.open_2 {
+    color: #360;
+}
+
+span.open_3 {
+    color: #C00;
+}
+
+span.open_4 {
 
 }
 
-span.cell_3 {
+span.open_5 {
 
 }
 
-span.cell_4 {
+span.open_6 {
 
 }
 
-span.cell_5 {
+span.open_7 {
 
 }
 
-span.cell_6 {
+span.open_8 {
 
 }
 
-span.cell_7 {
-
+span.open_X {
+    background-color: red;
 }
 
-span.cell_8 {
-
-}
-
-span.cell_mine {
-
-}
 span.cell:active {
   border-style:ridge;
 }
@@ -109,12 +112,11 @@ span.cell {
   display: inline-block;
   width: 35px;
   height: 35px;
-/*  margin: 1px; */
-  border: 4px outset #d2e3ed;
+  margin-left: 1px; 
+  border: 3px outset #d2e3ed;
   -webkit-border-radius: 1px;
 /*  border-radius: 2px; */
   font: normal 16px/-2 "Lucida Console", Monaco, monospace;
-  color: black;
   text-height: 35px;
   text-align:center;
   text-overflow: ellipsis;
@@ -129,6 +131,8 @@ span.cell {
 }
 
 div.game-row {
-    height: 35px;
+  height: 35px;
+
+  margin: 2px; 
 }
 
