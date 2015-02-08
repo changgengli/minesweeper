@@ -21,15 +21,7 @@
 
 ;; game status
 (def game-state 
-  (r/atom
-   {
-  ;  :board []
-  ;  :neighbor []
-  ;  :states [] ;; :hide, :open, :flag, :question
-
-     :first true
-     :start 0
-    }))
+  (r/atom { :first true :start 0 }))
 
 
 (defn play-sound [result]
@@ -48,9 +40,7 @@
 ;;      (println "Changed seconds")
       (set-tick))))
 
-
 (defn stop-sound [] (when-let [ audio-obj @playing] (.pause audio-obj)))
-
 
 (def setting (r/atom { :difficulty :beginner}))
 
@@ -114,11 +104,13 @@
           (count))))
 
 (defn complete-game [game]
+  (.ga  js/window 'send', 'event', 'win-game', 'click')
   (play-sound :completed)
   (-> game
       (assoc-in [:end] :completed)))
 
 (defn fail-game [game]
+  (.ga  js/window 'send', 'event', 'fail-game', 'click')
   (play-sound :failed)
   (-> game
       (assoc-in [:end] :failed)))
@@ -169,6 +161,8 @@
 
 (defn first-click [game x y]
   (set-tick)
+  ;;google analytics event
+  (.ga  js/window 'send', 'event', 'new-game', 'click')
   (if (= 1 (get-in game [:board x y]) )
     (swap-cell game [x y] (find-space game))
     game))
@@ -278,6 +272,7 @@
     (and end? (= state :flag) (zero? mine)) "wrong_flag"
     (= state :open)                         (str "open_" surround " open")
     (= state :flag)                         "cell_flag"
+    end?                                    (str "cell_" (name state)) ;;disable actions
     :else                                   (str "cell_action cell_" (name state)) ))
 (defn text-of [end? mine state surround]
   (cond 
