@@ -143,6 +143,10 @@ div.game-row {
   height: 35px;
   margin: 2px; 
 }
+.footnote{
+  font-size: 10px;
+  color: #779;
+}
 
 i.burst:before, i.burst:after { content: ""; position: absolute; top: 0; left: 0; height: 25px; width: 25px; background: red; z-index: 0}
 i.burst:before { -webkit-transform: rotate(30deg); -moz-transform: rotate(30deg); -ms-transform: rotate(30deg); -o-transform: rotate(30deg); } 
