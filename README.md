@@ -2,7 +2,10 @@
 # minesweeper
 
 An exercise for reagent, and the first game for my daughter :)
+
 ## Usage
+
+Click [this link](http://changgengli.github.io/minesweeper/app.html) to play.
 
 
 
@@ -16,4 +19,6 @@ An exercise for reagent, and the first game for my daughter :)
 
 ## Fonts
 <a href="http://www.styleseven.com">DIGITAL-7</a>
+
+
 
