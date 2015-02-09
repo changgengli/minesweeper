@@ -9,8 +9,15 @@
   :plugins [[lein-cljsbuild "1.0.4"]
             [cider/cider-nrepl "0.8.2"]]
   :profiles {:dev {:plugins [[com.cemerick/austin "0.1.6"]]}}
-  :cljsbuild {:builds [{:source-paths ["src-cljs"]
+  :cljsbuild {:builds 
+              {:dev {:source-paths ["src-cljs"]
                         :compiler {:output-to "app.js"
                                    :optimizations :whitespace
                                    :preamble ["reagent/react.js"]
-                                   :pretty-print true}}]})
+                                   :pretty-print true}}
+               :prod {:source-paths ["src-cljs"]
+                        :compiler {:output-to "app-prod.js"
+                                   :optimizations :advanced
+                                   :preamble  ["reagent/react.min.js"]
+                                   :externs ["externs.js"]
+                                   :pretty-print false}}}})

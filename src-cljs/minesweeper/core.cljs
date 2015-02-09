@@ -67,7 +67,7 @@
 
 ;;count the whole board
 (defn count-surround [xx yy board ]
-  (println "counting " xx yy board)
+;;  (println "counting " xx yy board)
   (->> 
     (for [x (range yy) y (range xx)] 
       (count-single-surround board x y))
@@ -76,6 +76,7 @@
     (vec) ))
 
 (defn init-game [ x y mines] 
+  (println "new game ...")
   (let [board (gen-board x y mines)]
   {:x x
    :y y
@@ -108,7 +109,6 @@
   (-> game 
       (assoc-in [:states x y] :open)
       (update-in [:need-open] dec)))
-
 
 (defn open-surround [game col mark-to-open]
   (if (seq col)
@@ -225,9 +225,7 @@
 (defn new-game! [difficulty]
   (stop-sound)
   (reset! time-tick 0)
-  (reset! game-state (apply init-game (difficulties difficulty)))
-  (print-game @game-state)
-  )
+  (reset! game-state (apply init-game (difficulties difficulty))))
 
 
 (defn click! [x y]
@@ -297,7 +295,6 @@
 (defn format [n]
   (let [s (str (max 0 n))]
     (str (apply str (repeat (- 3 (count s)) 0)) s)))
-
 ;; the timer
 (defn timer-component[]
 ;;  (println "trigger timer and rendering timer component ")
@@ -306,8 +303,8 @@
                    :read-only true
                    :value     (format (min 999 (quot (- @time-tick (@game-state :start)) 1000)))} ])
 
-
 (defn control-component [] 
+;;  (println "rendering control-component" )
   (let [game @game-state
         end? (game :end) ] 
            [:div.control-row  
@@ -329,7 +326,7 @@
       (map game-row (repeat end? ) (range) (game :board) (game :states) (game :counts)))))
 
 ;; Render the root component
-(defn start []
+(defn ^:export start []
   (new-game! :beginner)
   (r/render-component [control-component] (.getElementById js/document "controls"))
   (r/render-component [game-table] (.getElementById js/document "rows")))
