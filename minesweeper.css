@@ -64,9 +64,9 @@ span.cell_marked {
    color: #663;
 }
 span.open {
-  width:39px;
-  height: 39px;
-  line-height: 39px;
+  width:24px;
+  height: 24px;
+  line-height: 24px;
   border: 1px dotted green;
   border-style: dotted !important;
 }
@@ -109,23 +109,19 @@ span.open_8 {
 span.burst {
     background-color: red;
 }
-
-
-
 .cell_action:active {
   border-style:ridge;
 }
 .cell {
-
   display: inline-block;
-  width: 35px;
-  height: 35px;
+  width: 20px;
+  height: 20px;
 /*  margin-left: 1px; */
   border: 3px outset #d2e3ed;
   -webkit-border-radius: 1px;
 /*  border-radius: 2px; */
   font: normal 16px/-2 "Lucida Console", Monaco, monospace;
-  text-height: 35px;
+  text-height: 20px;
   text-align:center;
   text-overflow: ellipsis;
   background: #CCC;
@@ -136,12 +132,13 @@ span.burst {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  line-height:35px;
+  line-height:20px;
 }
 
 div.game-row {
-  height: 35px;
+  height: 20px;
   margin: 2px; 
+  white-space: nowrap;
 }
 .footnote{
   font-size: 10px;

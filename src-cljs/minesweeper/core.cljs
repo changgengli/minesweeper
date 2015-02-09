@@ -325,7 +325,7 @@
                              :read-only true
                              :value (format (game :remains))} ]
             [:button#control 
-             {:on-click #(new-game! :beginner)} 
+             {:on-click #(new-game! (rand-nth [:beginner, :intermediate, :expert]))} 
              (or ({:failed \u2639} end?) \u263A) ] 
             (timer-component) ]
            
