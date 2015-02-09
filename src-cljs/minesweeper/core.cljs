@@ -277,7 +277,7 @@
     (= state :hide) "@"))
 
 (defn cell [end? x y mine state surround]
-;  (println "rending cell " x y)
+  (println "rending cell " x y)
   [:span.cell
    { :on-click #(click! x y)
      :on-context-menu  #(do (mark! x y ) false)
@@ -290,7 +290,7 @@
 (defn game-row [end? x mines states surrounds]
 ;  (println "rending row " x)
   (into [:div.game-row ] 
-        (map cell (repeat end?) (repeat x) (range) mines states surrounds)));
+        (map vector (repeat cell) (repeat end?) (repeat x) (range) mines states surrounds)));
 
 (defn format [n]
   (let [s (str (max 0 n))]
@@ -323,7 +323,7 @@
         end? (game :end) ] 
     (into 
       [:div.board-panel ] 
-      (map game-row (repeat end? ) (range) (game :board) (game :states) (game :counts)))))
+      (map vector (repeat game-row) (repeat end? ) (range) (game :board) (game :states) (game :counts)))))
 
 ;; Render the root component
 (defn ^:export start []
