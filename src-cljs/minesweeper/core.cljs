@@ -1,7 +1,6 @@
 (ns minesweeper.core
   (:require [clojure.string :as string]
-            [reagent.core :as r]
-            ))
+            [reagent.core :as r]))
 
 (enable-console-print!)
 
@@ -35,9 +34,7 @@
 
 (defn update-timer []
   (let [game @game-state]
-;;    (println "timer triggered")
     (when-not (or (game :first) (game :end))
-;;      (println "Changed seconds")
       (set-tick))))
 
 (defn stop-sound [] (when-let [ audio-obj @playing] (.pause audio-obj)))
@@ -91,17 +88,9 @@
    :first true
    :start 0 ;;timestamp
    :remains mines
+   :need-open (- (* x y) mines)
    }))
 
-(defn all-open? [game]
-  (= (->> (game :board)
-          (apply concat)
-          (filter #(not= 1 %))
-          (count))
-     (->> (game :states)
-          (apply concat)
-          (filter #(= :open %))
-          (count))))
 
 (defn complete-game [game]
   (.ga  js/window 'send', 'event', 'win-game', 'click')
@@ -115,6 +104,12 @@
   (-> game
       (assoc-in [:end] :failed)))
 
+(defn open-cell [game x y]
+  (-> game 
+      (assoc-in [:states x y] :open)
+      (update-in [:need-open] dec)))
+
+
 (defn open-surround [game col mark-to-open]
   (if (seq col)
     (let [ [x y]    (peek col)  
@@ -123,11 +118,11 @@
                        (filter #(can-open (get-in game (into [:states] %)) ))
                        (filter (complement mark-to-open))) ] 
       (recur 
-        (reduce #(assoc-in % (into [:states] %2) :open) game to-open)
+        (reduce #(apply open-cell %  %2) game to-open)
         (into (pop col) (filter #(zero? (get-in game (into [:counts] %) 99)) to-open))
         (into mark-to-open to-open)))
     ;; end of traverse
-    (if (all-open? game) (complete-game game) game)))
+    (if (zero? (game :need-open)) (complete-game game) game)))
 
 ;; make the first click lucky
 ;; and swap
@@ -167,7 +162,6 @@
     (swap-cell game [x y] (find-space game))
     game))
 
-
 (defn click-game [game x y]
   (let [game (if (game :first) 
                (-> game
@@ -178,10 +172,10 @@
     (condp = (get-in game [:states x y])
       :flag game
       :open game 
-      (let [game (assoc-in game [:states x y] :open)]
+      (let [game (open-cell game x y)]
            (cond 
-             (= (get-in game [:board x y ]) 1) (fail-game game)  ;bomb
-             (all-open? game) (complete-game game)               ;all openned
+             (= (get-in game [:board x y ]) 1)  (fail-game game)  ;bomb
+             (zero? (game :need-open))           (complete-game game)               ;all openned
              (zero? (get-in game [:counts x y])) (open-surround game [[x y]] #{[x y]}) ;open all neighors
              :else game)))))
 
@@ -338,6 +332,5 @@
 (defn start []
   (new-game! :beginner)
   (r/render-component [control-component] (.getElementById js/document "controls"))
-  (r/render-component [game-table] (.getElementById js/document "rows"))
-  )
+  (r/render-component [game-table] (.getElementById js/document "rows")))
 
