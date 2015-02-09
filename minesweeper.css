@@ -3,6 +3,9 @@
     font-family: "LCD";
     src: url('fonts/digit-7-mono.ttf'); 
 }
+div {
+    text-align: center;
+}
 input.display {
   width: 45px;
   text-align: center;

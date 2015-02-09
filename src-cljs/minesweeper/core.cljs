@@ -285,7 +285,7 @@
     (= state :hide) "@"))
 
 (defn cell [end? x y mine state surround]
-;;  (print end? x y)
+;  (println "rending cell " x y)
   [:span.cell
    { :on-click #(click! x y)
      :on-context-menu  #(do (mark! x y ) false)
@@ -296,7 +296,7 @@
 
 ;; each row
 (defn game-row [end? x mines states surrounds]
-  ;;(println "rending " x mines states surrounds)
+;  (println "rending row " x)
   (into [:div.game-row ] 
         (map cell (repeat end?) (repeat x) (range) mines states surrounds)));
 
@@ -313,29 +313,31 @@
                    :value     (format (min 999 (quot (- @time-tick (@game-state :start)) 1000)))} ])
 
 
-;; The board
-(defn game-table []
-;;  (println "rendering " @game-state)
+(defn control-component [] 
   (let [game @game-state
         end? (game :end) ] 
-    (into 
-      [:div.board-panel 
-           [:div.control-row.row  
+           [:div.control-row  
             [:input.display {:type "text" 
                              :read-only true
                              :value (format (game :remains))} ]
             [:button#control 
              {:on-click #(new-game! (rand-nth [:beginner, :intermediate, :expert]))} 
              (or ({:failed \u2639} end?) \u263A) ] 
-            (timer-component) ]
-           
-           ] 
+            (timer-component) ]))
+
+;; The board
+(defn game-table []
+;;  (println "rendering " @game-state)
+  (let [game @game-state
+        end? (game :end) ] 
+    (into 
+      [:div.board-panel ] 
       (map game-row (repeat end? ) (range) (game :board) (game :states) (game :counts)))))
 
 ;; Render the root component
 (defn start []
   (new-game! :beginner)
-  (r/render-component 
-   [game-table]
-   (.getElementById js/document "root")))
+  (r/render-component [control-component] (.getElementById js/document "controls"))
+  (r/render-component [game-table] (.getElementById js/document "rows"))
+  )
 
