@@ -3,6 +3,11 @@
     font-family: "LCD";
     src: url('fonts/digit-7-mono.ttf'); 
 }
+@font-face{
+    font-family: "Symbola";
+    src: url('fonts/symbola.ttf'); 
+}
+
 div {
     text-align: center;
 }
@@ -10,7 +15,7 @@ input.display {
   width: 45px;
   text-align: center;
   letter-spacing: 3px;
-  font: normal 24px "LCD", Monaco, monospace;
+  font: normal 24px "LCD", monospace;
   background: black;
   color: yellow;
   height: 100%;
@@ -123,7 +128,8 @@ span.burst {
   border: 3px outset #d2e3ed;
   -webkit-border-radius: 1px;
 /*  border-radius: 2px; */
-  font: normal 16px/-2 "Lucida Console", Monaco, monospace;
+
+  font: normal 16px/-2 "Symbola", monospace;
   text-height: 20px;
   text-align:center;
   text-overflow: ellipsis;
