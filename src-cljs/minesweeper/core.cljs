@@ -251,9 +251,10 @@
 
 
 ;;output
-;; burst open_X: open a bomb
-;; wrong_flag  : flag a non-bomb cell
-;; open_[0-8]  : open a cell 
+;; burst:  open a bomb
+;; hide_mine
+;; bad_flag  : flag a non-bomb cell
+;; open open_[0-8]  : open a cell 
 ;; cell_hide
 ;; cell_question
 ;; cell_flag
@@ -261,7 +262,8 @@
 (defn class-of [end? mine state surround]
   (cond
     (and end? (= 1 mine) (= state :open) )  "open burst" 
-    (and end? (= state :flag) (zero? mine)) "wrong_flag"
+    (and end? (= 1 mine))                   "hide_mine"
+    (and end? (= state :flag) (zero? mine)) "bad_flag"
     (= state :open)                         (str "open_" surround " open")
     (= state :flag)                         "cell_flag"
     end?                                    (str "cell_" (name state)) ;;disable actions

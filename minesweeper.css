@@ -3,32 +3,22 @@
     font-family: "LCD";
     src: url('fonts/digit-7-mono.ttf'); 
 }
-@font-face{
-    font-family: "Symbola";
-    src: url('fonts/symbola.ttf'); 
+
+@font-face {
+    font-family: "EmojiSymbols";
+    src: url('fonts/EmojiSymbols-Regular.woff') format('woff');
+    text-decoration: none;
+    font-style: normal;
 }
 
 div {
     text-align: center;
 }
-input.display {
-  width: 45px;
-  text-align: center;
-  letter-spacing: 3px;
-  font: normal 24px "LCD", monospace;
-  background: black;
-  color: yellow;
-  height: 100%;
-  display: inline-block;
-  margin-left: 25px;
-  margin-right: 25px;
-
-}
 .row  {
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px;
+  padding: 5px;
   background: #CCC;
   text-align: center;
 }
@@ -39,32 +29,55 @@ input.display {
 
 .control-row {
   background: #CCC;
-  height: 32px;
-  padding: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
+  height: 36px;
+  padding: 8px;
+  margin: auto;
+  line-height: 32px;
 }
 
-
 #control {
-  display: inline-block;
-  height: 100%;
-  font-size:  24px;
+  height: 34px;
   width: 80px;
   background: #ffc;
-  color: #337
+  color: #317;
+  font: 28px "EmojiSymbols", monospace;
+  line-height: 24px;
+  vertical-align: text-bottom;
+  padding: auto;
+  margin: auto;
+  display: inline-block;
+}
+
+input.display {
+  position: relative;
+  width: 45px;
+  text-align: center;
+  letter-spacing: 3px;
+  font: normal 28px "LCD", monospace; 
+  background: black;
+  color: yellow;
+  height: 32px;
+  display: inline-block;
+  padding: auto;
+  margin: auto;
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 .container {
   /*  background-color: #b0e0e6; */
 }
 
+span.hide-mine {
+  color: #630;
+}
 
+span.bad_flag {
+  color: #930;
+}
 span.cell_hide {
   color: #CCC;
 }
-
 span.cell_question {
    color: #690;
 }
@@ -79,7 +92,7 @@ span.open {
   border-style: dotted !important;
 }
 span.open_0 {
-  color: #CCC;
+    color: #CCC;
 }
 
 span.open_1 {
@@ -124,13 +137,9 @@ span.burst {
   display: inline-block;
   width: 20px;
   height: 20px;
-/*  margin-left: 1px; */
   border: 3px outset #d2e3ed;
   -webkit-border-radius: 1px;
-/*  border-radius: 2px; */
-
-  font: normal 16px/-2 "Symbola", monospace;
-  text-height: 20px;
+  font: 18px "EmojiSymbols", monospace;
   text-align:center;
   text-overflow: ellipsis;
   background: #CCC;
@@ -141,7 +150,6 @@ span.burst {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  line-height:20px;
 }
 
 div.game-row {
@@ -154,6 +162,3 @@ div.game-row {
   color: #779;
 }
 
-i.burst:before, i.burst:after { content: ""; position: absolute; top: 0; left: 0; height: 25px; width: 25px; background: red; z-index: 0}
-i.burst:before { -webkit-transform: rotate(30deg); -moz-transform: rotate(30deg); -ms-transform: rotate(30deg); -o-transform: rotate(30deg); } 
-i.burst:after { -webkit-transform: rotate(60deg); -moz-transform: rotate(60deg); -ms-transform: rotate(60deg); -o-transform: rotate(60deg); } 
