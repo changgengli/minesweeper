@@ -1,0 +1,9 @@
+var window= {};
+window.ga=function () {};
+window.setTimeout=function () {};
+window.HTMLAudioElement = 1;
+var Audio = {};
+Audio.play = function () {};
+Audio.pause = function () {};
+var Date =  { };
+Date.getTime = function() { };
