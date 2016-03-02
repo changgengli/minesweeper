@@ -282,7 +282,7 @@
   (println "rending cell " x y)
   [:span.cell
    { :on-click #(click! x y)
-     :on-context-menu  #(do (mark! x y ) false)
+     :on-context-menu (fn [e] (do (mark! x y ) (.preventDefault e) nil))
      :on-double-click #(explore! x y)
      :class (class-of end? mine state surround)
       } (text-of end? mine state surround)])
